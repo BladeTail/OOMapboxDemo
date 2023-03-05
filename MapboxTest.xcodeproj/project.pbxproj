@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0AB007D429B47DFB00074C57 /* DemoHouseTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB007CA29B47DFA00074C57 /* DemoHouseTransitioning.swift */; };
+		0AB007D529B47DFB00074C57 /* DemoHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB007CB29B47DFA00074C57 /* DemoHomeView.swift */; };
+		0AB007D629B47DFB00074C57 /* DemoCardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB007CC29B47DFA00074C57 /* DemoCardController.swift */; };
+		0AB007D729B47DFB00074C57 /* DemoCardTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB007CD29B47DFA00074C57 /* DemoCardTransitioning.swift */; };
+		0AB007D829B47DFB00074C57 /* DemoCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB007CE29B47DFA00074C57 /* DemoCardCollectionViewCell.swift */; };
+		0AB007D929B47DFB00074C57 /* DemoCentralCardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB007CF29B47DFA00074C57 /* DemoCentralCardLayout.swift */; };
+		0AB007DA29B47DFB00074C57 /* DemoHouseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB007D029B47DFB00074C57 /* DemoHouseController.swift */; };
+		0AB007DB29B47DFB00074C57 /* DemoTouchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB007D129B47DFB00074C57 /* DemoTouchView.swift */; };
+		0AB007DC29B47DFB00074C57 /* DemoCardHiddenTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB007D229B47DFB00074C57 /* DemoCardHiddenTransitioning.swift */; };
+		0AB007DD29B47DFB00074C57 /* DemoHouseHiddenTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB007D329B47DFB00074C57 /* DemoHouseHiddenTransitioning.swift */; };
 		1A95779238FAE2CBB4B5669F /* Pods_MapboxTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F6C7FF7A7A52EF235BF196 /* Pods_MapboxTest.framework */; };
 		B1A6F81F29B312CB001D15AB /* OOImageViewAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A6F81E29B312CB001D15AB /* OOImageViewAnnotation.swift */; };
 		B1A6F82129B32922001D15AB /* OOMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A6F81D29B30F3B001D15AB /* OOMapView.swift */; };
@@ -20,6 +30,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0AB007CA29B47DFA00074C57 /* DemoHouseTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoHouseTransitioning.swift; sourceTree = "<group>"; };
+		0AB007CB29B47DFA00074C57 /* DemoHomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoHomeView.swift; sourceTree = "<group>"; };
+		0AB007CC29B47DFA00074C57 /* DemoCardController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoCardController.swift; sourceTree = "<group>"; };
+		0AB007CD29B47DFA00074C57 /* DemoCardTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoCardTransitioning.swift; sourceTree = "<group>"; };
+		0AB007CE29B47DFA00074C57 /* DemoCardCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoCardCollectionViewCell.swift; sourceTree = "<group>"; };
+		0AB007CF29B47DFA00074C57 /* DemoCentralCardLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoCentralCardLayout.swift; sourceTree = "<group>"; };
+		0AB007D029B47DFB00074C57 /* DemoHouseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoHouseController.swift; sourceTree = "<group>"; };
+		0AB007D129B47DFB00074C57 /* DemoTouchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTouchView.swift; sourceTree = "<group>"; };
+		0AB007D229B47DFB00074C57 /* DemoCardHiddenTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoCardHiddenTransitioning.swift; sourceTree = "<group>"; };
+		0AB007D329B47DFB00074C57 /* DemoHouseHiddenTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoHouseHiddenTransitioning.swift; sourceTree = "<group>"; };
 		87A472C996E4D155D0710068 /* Pods-MapboxTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapboxTest.debug.xcconfig"; path = "Target Support Files/Pods-MapboxTest/Pods-MapboxTest.debug.xcconfig"; sourceTree = "<group>"; };
 		A404BEBD58A758E9803A35EC /* Pods-MapboxTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapboxTest.release.xcconfig"; path = "Target Support Files/Pods-MapboxTest/Pods-MapboxTest.release.xcconfig"; sourceTree = "<group>"; };
 		B1A6F81D29B30F3B001D15AB /* OOMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OOMapView.swift; sourceTree = "<group>"; };
@@ -48,6 +68,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0AB007C929B47DD100074C57 /* DemoCustomView */ = {
+			isa = PBXGroup;
+			children = (
+				0AB007CE29B47DFA00074C57 /* DemoCardCollectionViewCell.swift */,
+				0AB007CC29B47DFA00074C57 /* DemoCardController.swift */,
+				0AB007D229B47DFB00074C57 /* DemoCardHiddenTransitioning.swift */,
+				0AB007CD29B47DFA00074C57 /* DemoCardTransitioning.swift */,
+				0AB007CF29B47DFA00074C57 /* DemoCentralCardLayout.swift */,
+				0AB007CB29B47DFA00074C57 /* DemoHomeView.swift */,
+				0AB007D029B47DFB00074C57 /* DemoHouseController.swift */,
+				0AB007D329B47DFB00074C57 /* DemoHouseHiddenTransitioning.swift */,
+				0AB007CA29B47DFA00074C57 /* DemoHouseTransitioning.swift */,
+				0AB007D129B47DFB00074C57 /* DemoTouchView.swift */,
+			);
+			path = DemoCustomView;
+			sourceTree = "<group>";
+		};
 		85DCC9A51702BFC1CF033C54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -59,6 +96,7 @@
 		B1A6F81C29B30F1C001D15AB /* OOMapView */ = {
 			isa = PBXGroup;
 			children = (
+				0AB007C929B47DD100074C57 /* DemoCustomView */,
 				B1A6F81D29B30F3B001D15AB /* OOMapView.swift */,
 				B1A6F81E29B312CB001D15AB /* OOImageViewAnnotation.swift */,
 				B1A6F82029B32204001D15AB /* OOMapViewModel.swift */,
@@ -223,12 +261,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AB007D729B47DFB00074C57 /* DemoCardTransitioning.swift in Sources */,
 				B1A6F82129B32922001D15AB /* OOMapView.swift in Sources */,
+				0AB007D829B47DFB00074C57 /* DemoCardCollectionViewCell.swift in Sources */,
+				0AB007DA29B47DFB00074C57 /* DemoHouseController.swift in Sources */,
 				B1A6F82229B32922001D15AB /* OOMapViewModel.swift in Sources */,
+				0AB007DC29B47DFB00074C57 /* DemoCardHiddenTransitioning.swift in Sources */,
 				B1EBA72A299FC2B0001EF27F /* ViewController.swift in Sources */,
+				0AB007DD29B47DFB00074C57 /* DemoHouseHiddenTransitioning.swift in Sources */,
 				B1A6F81F29B312CB001D15AB /* OOImageViewAnnotation.swift in Sources */,
 				B1EBA726299FC2B0001EF27F /* AppDelegate.swift in Sources */,
 				B1EBA728299FC2B0001EF27F /* SceneDelegate.swift in Sources */,
+				0AB007DB29B47DFB00074C57 /* DemoTouchView.swift in Sources */,
+				0AB007D929B47DFB00074C57 /* DemoCentralCardLayout.swift in Sources */,
+				0AB007D529B47DFB00074C57 /* DemoHomeView.swift in Sources */,
+				0AB007D629B47DFB00074C57 /* DemoCardController.swift in Sources */,
+				0AB007D429B47DFB00074C57 /* DemoHouseTransitioning.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

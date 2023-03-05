@@ -85,6 +85,13 @@ class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
         v.setVisible(visible: visible)
     }
     
+    public func setAllAnnotationsVisible(visible:Bool) {
+        for anno in self.normalAnnotations {
+            let v = anno as! OOImageViewAnnotation
+            v.setVisible(visible: visible)
+        }
+    }
+    
     private func updateMapPitchAndZoomLevel () {
         let pitchAnimator = ooMapView.mapView.camera.makeAnimator(duration: 0.25, curve: .easeInOut) { (transition) in
             transition.pitch.toValue = 52.50

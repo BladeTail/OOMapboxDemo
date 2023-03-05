@@ -109,7 +109,7 @@ class HouseAnnotation : OOImageViewAnnotation {
     }
     
     private func setupHeaders() {
-        let delta = 10.0;
+        let delta = 20.0;
         for index in 0...4 {
             let imgName:String = "img" + String(index + 1)
             let img:UIImage = UIImage(named: imgName)!
@@ -122,8 +122,8 @@ class HouseAnnotation : OOImageViewAnnotation {
             let indexDelta = abs(2 - index);
             let xDelta = indexDelta == 1 ? CGFloat(index - 2) * 6.5 : 0.0
             let headerX = hCenter.x + CGFloat(index -  2) * (delta + img.size.width) + xDelta;
-            let ratio:CGFloat = indexDelta == 1 ? (2.0 / 3.0) : CGFloat(indexDelta)
-            let headerY = (ratio - 2.3) * img.size.height;
+            let ratio:CGFloat = indexDelta == 1 ? (3.0 / 5.0) : CGFloat(indexDelta)
+            let headerY = (ratio - 2.3) * img.size.height - 30;
             let centerH = CGPoint(x: headerX, y: headerY);
             headerShowCenter.add(centerH)
             self.addSubview(imageView)
@@ -142,7 +142,7 @@ class HouseAnnotation : OOImageViewAnnotation {
                 let v:UIImageView = imageView as! UIImageView
                 v.alpha = visible ? 1.0 : 0.0;
                 let index = self.headers.index(of: v)
-                let scale:CGFloat = (visible ? 1.2 : 1.0)
+                let scale:CGFloat = (visible ? 1.4 : 1.0)
                 let width = v.image!.size.width * scale
                 let height = v.image!.size.height * scale
                 v.frame.size = CGSize(width:width , height: height)

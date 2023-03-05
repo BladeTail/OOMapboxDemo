@@ -4,3 +4,4 @@ Pods/
 !lib.a
 build/
 Podfile.lock
+MapboxTest.xcworkspace/xcuserdata/
