@@ -26,6 +26,7 @@ class OOImageViewAnnotation : UIImageView {
     public var type:OOAnnotationType = .unknownAnnoType
     public var seleced:Bool = false
     public var visibleSize:CGSize = CGSizeZero
+    private var visible:Bool = false
     
     init(coordinate:CLLocationCoordinate2D, size: CGSize, anchor:ViewAnnotationAnchor, image:UIImage, tpye:OOAnnotationType) {
         let options = ViewAnnotationOptions(
@@ -60,9 +61,14 @@ class OOImageViewAnnotation : UIImageView {
     }
     
     public func setVisible(visible:Bool) {
+        self.visible = visible
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut) {
             self.alpha = visible ? 1.0 : 0.0
         }
+    }
+    
+    public func isVisible() -> Bool {
+        return visible
     }
     
     public func isNormalAnnotation() -> Bool {

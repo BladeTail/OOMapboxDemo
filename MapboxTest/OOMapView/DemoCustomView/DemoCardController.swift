@@ -48,7 +48,6 @@ final class DemoCardController: UIViewController {
         if let delegatingView = view as? DemoTouchView {
             delegatingView.touchDelegate = presentingViewController?.view
         }
-//        showCollectionItem(at: 0, animated: false)
     }
     
     // 回调

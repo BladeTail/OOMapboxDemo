@@ -24,11 +24,12 @@ class OOMapView : UIView {
         mapView.ornaments.scaleBarView.isHidden = true
         mapView.ornaments.attributionButton.isHidden = true
         mapView.gestures.options.pitchEnabled = false
-        mapView.gestures.options.pinchZoomEnabled = false
+        mapView.gestures.options.pinchZoomEnabled = true
         mapView.gestures.options.quickZoomEnabled = false
         mapView.gestures.options.doubleTapToZoomInEnabled = false
         mapView.gestures.options.doubleTouchToZoomOutEnabled = false
-        mapView.gestures.options.pinchEnabled = false
+        mapView.gestures.options.pinchEnabled = true
+        mapView.gestures.options.rotateEnabled = false
     }
     
     required init?(coder: NSCoder) {

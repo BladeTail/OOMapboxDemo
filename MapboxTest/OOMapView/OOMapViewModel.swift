@@ -29,7 +29,7 @@ class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
         } set {
             _addedTestAnnos = newValue
             if (newValue == 3) {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
                     self.addFourRandomViewAnnotations()
                 })
             }
@@ -101,6 +101,7 @@ class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
     }
     
     internal func locationUpdate(newLocation: Location) {
+        if addedTestAnnos == 3 {return}
         ooMapView.mapView.camera.ease(
             to: CameraOptions(center: newLocation.coordinate),
             duration: 1,
@@ -250,9 +251,6 @@ class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
             userAnno = OOImageViewAnnotation(coordinate: coord, size: uImage.size, anchor: ViewAnnotationAnchor.bottom, image: uImage, tpye: .currentUserAnnoType)
             userAnno.delegate = self
             ooMapView.addViewAnnotation(view: userAnno)
-        } else {
-            let options = ViewAnnotationOptions(geometry: Point(coord))
-            try! ooMapView.mapView.viewAnnotations.update(userAnno, options: options)
         }
     }
 }
