@@ -177,14 +177,15 @@ class HouseAnnotation : OOImageViewAnnotation {
     private func jumpHeaders() {
         for index in  0...4 {
             let v:UIView = self.headers.object(at: index) as! UIView
-            let op:AnimationOptions = [.curveEaseInOut, .autoreverse]
             let vCenter:CGPoint = self.headerShowCenter.object(at: index) as! CGPoint
             let duration = 0.2
-            UIView.animate(withDuration: 0.2, delay: duration * CGFloat(2 * index), options: op) {
+            UIView.animate(withDuration: duration, delay: duration * CGFloat(2 * index), options: .curveEaseIn) {
                 let jumpCenter = CGPoint(x:vCenter.x , y: vCenter.y - 5)
                 v.center = jumpCenter
             } completion: { (finished) in
-                v.center = vCenter
+                UIView.animate(withDuration: duration, delay:0, options: .curveEaseOut) {
+                    v.center = vCenter
+                }
             }
         }
     }
