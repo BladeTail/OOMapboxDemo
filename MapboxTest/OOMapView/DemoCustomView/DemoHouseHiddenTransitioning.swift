@@ -28,7 +28,7 @@ final class DemoHouseHiddenTransitioning: NSObject, UIViewControllerAnimatedTran
         
         UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut) {
             toVC.homeView.alpha = 1
-            fromVC.layerView.alpha = 0
+            fromVC.setViews(visiable: false)
             fromVC.collectionView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: 300)
         } completion: { finish in
             toVC.mapViewModel.deselectHouseOrAnnotaion()

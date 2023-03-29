@@ -96,6 +96,8 @@ extension DemoHomeView {
     @objc fileprivate func click(_ btn: UIButton) {
         if btn == ispace {
             call("ispace")
+        } else if btn == share {
+            call("share")
         } else {
             call("card")
         }

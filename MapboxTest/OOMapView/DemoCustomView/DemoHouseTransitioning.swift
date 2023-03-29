@@ -20,7 +20,7 @@ final class DemoHouseTransitioning: NSObject, UIViewControllerAnimatedTransition
 
         let duration = self.transitionDuration(using: transitionContext)
         
-        toVC.layerView.alpha = 0
+        toVC.setViews(visiable: false)
         transitionContext.containerView.addSubview(toVC.view)
         
         fromVC.mapViewModel.setCurrentUserAnnoVisible(visible: false)
@@ -29,7 +29,7 @@ final class DemoHouseTransitioning: NSObject, UIViewControllerAnimatedTransition
         
         UIView.animate(withDuration: duration, delay: 0) {
             fromVC.homeView.alpha = 0
-            toVC.layerView.alpha = 1
+            toVC.setViews(visiable: true)
             toVC.collectionView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - 300 - 85, width: UIScreen.main.bounds.width, height: 300)
         } completion: { finish in
             fromVC.homeView.isHidden = true

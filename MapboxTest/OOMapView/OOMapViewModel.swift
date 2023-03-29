@@ -7,6 +7,8 @@
 
 import MapboxMaps
 
+let accessToken: String = "pk.eyJ1Ijoiam9uZXgiLCJhIjoiY2xlODYxeDV5MDQwYzN5cGJvYWV6Y29jaCJ9.93pAnkG6382zyJSyhHp1bw"
+
 protocol OOMapViewDelegate : AnyObject {
     func didSelectAnnotaion(annotation:OOImageViewAnnotation, index:NSInteger)
     func didDeselectAnnotaion(annotation:OOImageViewAnnotation, index:NSInteger)
@@ -16,8 +18,7 @@ protocol OOMapViewDelegate : AnyObject {
 
 class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
     internal var ooMapView:OOMapView!
-    private let accessToken:String = "pk.eyJ1Ijoiam9uZXgiLCJhIjoiY2xlODYxeDV5MDQwYzN5cGJvYWV6Y29jaCJ9.93pAnkG6382zyJSyhHp1bw"
-    private let styleURI:String = "mapbox://styles/jonex/cleay9fnv000101p0jfd2eac0"
+    private let styleURI:String = "mapbox://styles/jonex/clfo9was6000301o7zni3ye8y"
     
     public weak var delegate:OOMapViewDelegate!
     
@@ -39,8 +40,8 @@ class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
     private var annotationAnimationStartTime:TimeInterval = 0
     private var annotationAnimationDuration = 0.25
     private let normalAnnotations:NSMutableArray = NSMutableArray()
-    private let normalZoom:CGFloat = 17.24
-    private let houseZoom:CGFloat = 17.50
+    private let normalZoom:CGFloat = 15
+    private let houseZoom:CGFloat = 15
     
     /// 界面上普通标注的数量
     public var normalAnnoCount:NSInteger = 4
@@ -55,7 +56,7 @@ class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
     }
     
     public func onViewDidAppear(vc:UIViewController) {
-        self.updateMapPitchAndZoomLevel()
+//        self.updateMapPitchAndZoomLevel()
         addedTestAnnos = addedTestAnnos == 1 ? 3 : 2;
     }
     
@@ -107,9 +108,14 @@ class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
             duration: 1,
             curve: .linear,
             completion: nil)
-        self.updateCurrentUserAnno(coord: newLocation.coordinate)
+//        self.updateCurrentUserAnno(coord: newLocation.coordinate)
         addedTestAnnos = addedTestAnnos == 2 ? 3 : 1
         uCoord = newLocation.coordinate
+    }
+    
+    func flyCurrentLocation() {
+        let options = CameraOptions(center: uCoord)
+        ooMapView.mapView.camera.ease(to: options, duration: 1, curve: .easeInOut)
     }
     
     private func addFourRandomViewAnnotations() {
@@ -140,7 +146,7 @@ class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
         let houseCoord = mapView.mapboxMap.coordinate(for: housePoint)
         self.houseAnno = HouseAnnotation(coordinate: houseCoord)
         self.houseAnno.delegate = self
-        ooMapView.addViewAnnotation(view: self.houseAnno)
+//        ooMapView.addViewAnnotation(view: self.houseAnno)
     }
     
     private func momentsImage() -> UIImage {
@@ -253,4 +259,9 @@ class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
             ooMapView.addViewAnnotation(view: userAnno)
         }
     }
+    
+    public func changeBearingAndPitch(increase: Bool) {
+        ooMapView.changeBearingAndPitch(increase: increase)
+    }
+    
 }

@@ -10,8 +10,7 @@ import UIKit
 
 final class DemoCardController: UIViewController {
     
-    public var collectionView: UICollectionView!
-    public var layerView: UIView!
+    fileprivate var collectionView: UICollectionView!
     
     typealias Complated = (_ index: Int) -> Void
     fileprivate var call: Complated!
@@ -20,10 +19,17 @@ final class DemoCardController: UIViewController {
     let titles = ["Friends", "For You", "Nearby"]
     let subTitles = ["All", "Moments", "Invites"]
     
+    fileprivate var layerView: UIView!
+    fileprivate var btn1: UIButton!
+    fileprivate var btn2: UIButton!
+    fileprivate var btn3: UIButton!
     fileprivate var subBtn1: UIButton!
     fileprivate var subBtn2: UIButton!
     fileprivate var subBtn3: UIButton!
-    
+    fileprivate var slider: UIView!
+    fileprivate var backBtn: UIButton!
+    fileprivate var searchBtn: UIButton!
+
     public var collectionViewIndex: Int = 0 {
         didSet {
             if collectionViewIndex == oldValue {
@@ -55,6 +61,19 @@ final class DemoCardController: UIViewController {
         call = handler
     }
     
+    func setViews(visiable: Bool) {
+        collectionView.alpha = visiable ? 1 : 0
+        layerView.alpha = visiable ? 1 : 0
+        backBtn.alpha = visiable ? 1 : 0
+        searchBtn.alpha = visiable ? 1 : 0
+        slider.alpha = visiable ? 1 : 0
+        btn1.alpha = visiable ? 1 : 0
+        btn2.alpha = visiable ? 1 : 0
+        btn3.alpha = visiable ? 1 : 0
+        subBtn1.alpha = visiable ? 1 : 0
+        subBtn2.alpha = visiable ? 1 : 0
+        subBtn3.alpha = visiable ? 1 : 0
+    }
 }
 
 // MARK: - 导航布局
@@ -64,7 +83,7 @@ extension DemoCardController {
     fileprivate func setupNaviBar() {
         
         layerView = UIView()
-        layerView.isUserInteractionEnabled = true
+        layerView.isUserInteractionEnabled = false
         layerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 262.5)
         let bgLayer1 = CAGradientLayer()
         bgLayer1.colors = [UIColor(red: 0.02, green: 0, blue: 0.21, alpha: 1).cgColor, UIColor(red: 0.09, green: 0.07, blue: 0.3, alpha: 0).cgColor]
@@ -75,9 +94,9 @@ extension DemoCardController {
         layerView.layer.addSublayer(bgLayer1)
         self.view.addSubview(layerView)
         
-        let btn1 = setupBtn(title: titles[0], fontSize: 21)
-        let btn2 = setupBtn(title: titles[1], fontSize: 21)
-        let btn3 = setupBtn(title: titles[2], fontSize: 21)
+        btn1 = setupBtn(title: titles[0], fontSize: 21)
+        btn2 = setupBtn(title: titles[1], fontSize: 21)
+        btn3 = setupBtn(title: titles[2], fontSize: 21)
 
         let size1 = getTextSize(text: titles[0], fontSize: 21)
         let size2 = getTextSize(text: titles[1], fontSize: 21)
@@ -93,30 +112,30 @@ extension DemoCardController {
 
         btn1.isSelected = true
 
-        layerView.addSubview(btn1)
-        layerView.addSubview(btn2)
-        layerView.addSubview(btn3)
+        view.addSubview(btn1)
+        view.addSubview(btn2)
+        view.addSubview(btn3)
         
         let sx = x1 + (size1.width - 5) / 2.0
         let sy = 55 + size1.height + 4
-        let slider = UIView(frame: CGRect(x: sx, y: sy, width: 5, height: 2))
+        slider = UIView(frame: CGRect(x: sx, y: sy, width: 5, height: 2))
         slider.backgroundColor = UIColor(red: 0, green: 0.84, blue: 1, alpha: 1)
         slider.layer.shadowColor = UIColor(red: 0.41, green: 0.35, blue: 1, alpha: 0.3).cgColor
         slider.layer.shadowOpacity = 1
         slider.layer.shadowRadius = 10.5
         layerView.addSubview(slider)
         
-        let backBtn = UIButton.init(type: .custom)
+        backBtn = UIButton.init(type: .custom)
         backBtn.frame = CGRect(x: 15, y: 55, width: 24, height: 24)
         backBtn.setImage(UIImage(named: "tab_icon_back"), for: .normal)
-        layerView.addSubview(backBtn)
+        view.addSubview(backBtn)
         
         backBtn.addTarget(self, action: #selector(close), for: .touchUpInside)
         
-        let searchBtn = UIButton.init(type: .custom)
+        searchBtn = UIButton.init(type: .custom)
         searchBtn.frame = CGRect(x: UIScreen.main.bounds.width - 15 - 24, y: 55, width: 24, height: 24)
         searchBtn.setImage(UIImage(named: "tab_icon_search"), for: .normal)
-        layerView.addSubview(searchBtn)
+        view.addSubview(searchBtn)
         
         subBtn1 = setupBtn(title: subTitles[0], fontSize: 17)
         subBtn2 = setupBtn(title: subTitles[1], fontSize: 17)
@@ -136,9 +155,9 @@ extension DemoCardController {
         
         subBtn1.isSelected = true
         
-        layerView.addSubview(subBtn1)
-        layerView.addSubview(subBtn2)
-        layerView.addSubview(subBtn3)
+        view.addSubview(subBtn1)
+        view.addSubview(subBtn2)
+        view.addSubview(subBtn3)
         
         subBtn1.addTarget(self, action: #selector(click(_:)), for: .touchUpInside)
         subBtn2.addTarget(self, action: #selector(click(_:)), for: .touchUpInside)

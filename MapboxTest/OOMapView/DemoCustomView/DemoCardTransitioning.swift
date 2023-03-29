@@ -30,19 +30,16 @@ class DemoCardTransitioning: NSObject, UIViewControllerAnimatedTransitioning {
 //        snapView.frame = fromVC.view.bounds
 //        fromVC.view.addSubview(snapView)
         
-        toVC.collectionView.alpha = 0
-        toVC.layerView.alpha = 0
+        toVC.setViews(visiable: false)
         fromVC.mapViewModel.setCurrentUserAnnoVisible(visible: false)
         fromVC.mapViewModel.setHouseVisible(visible: false)
         
         UIView.animate(withDuration: duration, delay: 0) {
-            toVC.layerView.alpha = 1
-            toVC.collectionView.alpha = 1
+            toVC.setViews(visiable: true)
             fromVC.homeView.alpha = 0
         } completion: { finish in
             fromVC.homeView.alpha = 0
-            toVC.layerView.alpha = 1
-            toVC.collectionView.alpha = 1
+            toVC.setViews(visiable: true)
 //            toVC.addCollectionViewFadaInAnimation()
             if transitionContext.transitionWasCancelled {
                 toVC.view.removeFromSuperview()

@@ -12,7 +12,10 @@ final class DemoHouseController: UIViewController {
     let images = ["c1", "c2", "c3", "c4", "c5", "c6"]
     
     public var collectionView: UICollectionView!
-    public var layerView: UIView!
+    fileprivate var layerView: UIView!
+    fileprivate var backBtn: UIButton!
+    fileprivate var addBtn: UIButton!
+    fileprivate var titleLabel: UILabel!
     
     public var collectionViewIndex: Int = 0 {
       didSet {
@@ -39,6 +42,13 @@ final class DemoHouseController: UIViewController {
         }
     }
     
+    func setViews(visiable: Bool) {
+        layerView.alpha = visiable ? 1 : 0
+        backBtn.alpha = visiable ? 1 : 0
+        addBtn.alpha = visiable ? 1 : 0
+        titleLabel.alpha = visiable ? 1 : 0
+    }
+    
 }
 
 extension DemoHouseController {
@@ -54,11 +64,11 @@ extension DemoHouseController {
         bgLayer1.startPoint = CGPoint(x: 0.5, y: 0)
         bgLayer1.endPoint = CGPoint(x: 0.76, y: 0.76)
         layerView.layer.addSublayer(bgLayer1)
-        self.view.addSubview(layerView)
+        view.addSubview(layerView)
         
-        let backBtn = UIButton.init(type: .custom)
-        let addBtn = UIButton.init(type: .custom)
-        let titleLabel = UILabel()
+        backBtn = UIButton.init(type: .custom)
+        addBtn = UIButton.init(type: .custom)
+        titleLabel = UILabel()
         
         backBtn.frame = CGRect(x: 21, y: 55, width: 24, height: 24)
         addBtn.frame = CGRect(x: UIScreen.main.bounds.width - 15 - 24, y: 55, width: 24, height: 24)
@@ -71,9 +81,9 @@ extension DemoHouseController {
         titleLabel.textColor = UIColor.white
         titleLabel.font = UIFont.boldSystemFont(ofSize: 21)
         
-        layerView.addSubview(backBtn)
-        layerView.addSubview(addBtn)
-        layerView.addSubview(titleLabel)
+        view.addSubview(backBtn)
+        view.addSubview(addBtn)
+        view.addSubview(titleLabel)
         
         backBtn.addTarget(self, action: #selector(close), for: .touchUpInside)
     }

@@ -23,12 +23,15 @@ class ViewController: UIViewController {
         homeView.isUserInteractionEnabled = true
         self.view.addSubview(homeView)
 
-        homeView.callback { action in
-//            if action == "ispace" {
-//                self.present(DemoHouseController(), animated: true)
-//            } else {
+        homeView.callback { [unowned self] action in
+            if action == "ispace" {
+                self.mapViewModel.changeBearingAndPitch(increase: false)
+            } else if action == "share" {
+                self.mapViewModel.changeBearingAndPitch(increase: true)
+            } else {
+                self.mapViewModel.flyCurrentLocation()
 //                self.present(DemoCardController(), animated: true)
-//            }
+            }
         }
     }
     
