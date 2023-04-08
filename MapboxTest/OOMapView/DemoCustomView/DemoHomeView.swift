@@ -18,7 +18,8 @@ public class DemoHomeView: DemoTouchView {
     private var rightBottom: UIButton!
     private var share: UIButton!
     private var ispace: UIButton!
-    
+    public var puck: UIButton!
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -41,6 +42,7 @@ extension DemoHomeView {
     fileprivate func setupViews() {
         
         let layerView = UIView()
+        layerView.isUserInteractionEnabled = false
         layerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 262.5)
         let bgLayer1 = CAGradientLayer()
         bgLayer1.colors = [UIColor(red: 0.02, green: 0, blue: 0.21, alpha: 1).cgColor, UIColor(red: 0.09, green: 0.07, blue: 0.3, alpha: 0).cgColor]
@@ -58,6 +60,10 @@ extension DemoHomeView {
         share = setupBtn("nav_icon_share_default")
         ispace = setupBtn("nav_icon_ispace_default")
         
+        puck = UIButton(type: .custom)
+        puck.setImage(UIImage(named: "pucking_normal"), for: .normal)
+        puck.setImage(UIImage(named: "pucking_selected"), for: .selected)
+        
         let bgView = UIView()
         bgView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
         bgView.layer.masksToBounds = true
@@ -70,9 +76,11 @@ extension DemoHomeView {
         bgView.frame = CGRect(x: (self.bounds.width - 166) / 2.0, y: self.bounds.height - 48 - 84, width: 166, height: 84)
         share.frame = CGRect(x: (bgView.bounds.width - 128 - 8) / 2.0, y: (bgView.bounds.height - 64) / 2.0, width: 64, height: 64)
         ispace.frame = CGRect(x: share.frame.maxX + 8, y: (bgView.bounds.height - 64) / 2.0, width: 64, height: 64)
+        puck.frame = CGRect(x: (self.bounds.width - 36) / 2.0, y: bgView.frame.minY - 56, width: 36, height: 36)
         
         bgView.addSubview(share)
         bgView.addSubview(ispace)
+        self.addSubview(puck)
         self.addSubview(leftNavi)
         self.addSubview(rightNavi)
         self.addSubview(leftBottom)
@@ -85,6 +93,7 @@ extension DemoHomeView {
         rightNavi.addTarget(self, action: #selector(click(_:)), for: .touchUpInside)
         leftBottom.addTarget(self, action: #selector(click(_:)), for: .touchUpInside)
         rightBottom.addTarget(self, action: #selector(click(_:)), for: .touchUpInside)
+        puck.addTarget(self, action: #selector(click(_:)), for: .touchUpInside)
     }
     
     fileprivate func setupBtn(_ imageName: String) -> UIButton {
@@ -98,6 +107,13 @@ extension DemoHomeView {
             call("ispace")
         } else if btn == share {
             call("share")
+        } else if btn == puck {
+            btn.isSelected.toggle()
+            if btn.isSelected {
+                call("open puck")
+            } else {
+                call("close puck")
+            }
         } else {
             call("card")
         }

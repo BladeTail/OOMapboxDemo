@@ -7,19 +7,34 @@
 import UIKit
 import MapboxMaps
 
+//       2s          0.5s
+// zoom 0.36  -0.5s-  12   -0.5s-  22
+
 class OOMapView : UIView {
     public var mapView: MapView!
+    
+    typealias Action = (_ type: MapboxMaps.GestureType) -> Void
+    private var _gestureHandler: Action!
+    var gestureHandler: Action {
+        get {
+            _gestureHandler
+        }
+        set {
+            _gestureHandler = newValue
+        }
+    }
         
     private var animationStartTime: TimeInterval = 0
     private let zoomThreshold = 16.5
     private var heightChanged: Bool = false
     private var animating: Bool = false
+    private var light = Light()
     
     init(frame:CGRect, accessToken:String, styleURI:String) {
         super.init(frame: frame)
         let myResourceOptions = ResourceOptions(accessToken: accessToken)
         let styleURI = StyleURI(rawValue: styleURI)!
-        let camera = CameraOptions(zoom: 15, pitch: 45)
+        let camera = CameraOptions(zoom: 0.36, pitch: 45)
         let myMapInitOptions = MapInitOptions(resourceOptions: myResourceOptions, cameraOptions: camera, styleURI: styleURI)
         mapView = MapView(frame: self.bounds, mapInitOptions: myMapInitOptions)
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -27,17 +42,7 @@ class OOMapView : UIView {
         
         puckUI()
         
-        mapView.mapboxMap.onNext(event: .mapLoaded) { [unowned self] _ in
-            self.mapView.location.requestTemporaryFullAccuracyPermissions(withPurposeKey: accessToken)
-        }
-                
-        mapView.mapboxMap.onNext(event: .styleLoaded) { [unowned self] _ in
-            self.fixBuildingExtrusions()
-        }
-        
-        mapView.mapboxMap.onEvery(event: .cameraChanged) { [unowned self] _ in
-            self.cameraChanged()
-        }
+        mapView.gestures.delegate = self
                 
         mapView.ornaments.logoView.isHidden = true
         mapView.ornaments.compassView.isHidden = true
@@ -67,7 +72,6 @@ class OOMapView : UIView {
 extension OOMapView {
     
     func cameraChanged() {
-        print("--- > \(self.mapView.cameraState.zoom)")
         if self.mapView.cameraState.zoom >= zoomThreshold, !heightChanged, !animating {
             changeFillExtrusionHeight()
         }
@@ -76,21 +80,34 @@ extension OOMapView {
         }
     }
     
-    func changeBearingAndPitch(increase: Bool) {
-        var toBearing = self.mapView.cameraState.bearing
-        var toPitch = self.mapView.cameraState.pitch
-        if increase {
-            toBearing += 10
-            toPitch += 5
+    // 0 - 85
+    func changePitch(processor: Double) {
+        var toValue = self.mapView.cameraState.pitch
+        let max = 85 - toValue
+        let min = toValue
+        if processor > 0 {
+            toValue += max * processor
         } else {
-            toBearing -= 10
-            toPitch -= 5
+            toValue += min * processor
         }
-        let animator = mapView.camera.makeAnimator(duration: 1, curve: .linear) { (transition) in
-//            transition.bearing.toValue = toBearing
-            transition.pitch.toValue = toPitch
+        mapView.mapboxMap.setCamera(to: CameraOptions(pitch: toValue))
+    }
+    
+    // 10 - 20
+    func changeZoom(processor: Double) {
+        var toValue = self.mapView.cameraState.zoom
+        let max = 20 - toValue
+        let min = toValue - 10
+        if processor > 0 {
+            toValue += max * processor
+        } else {
+            toValue += min * processor
         }
-        animator.startAnimation()
+        mapView.mapboxMap.setCamera(to: CameraOptions(zoom: toValue))
+//        let animator = mapView.camera.makeAnimator(duration: 0.0125, curve: .linear) { (transition) in
+//            transition.zoom.toValue = toValue
+//        }
+//        animator.startAnimation()
     }
     
     private func changeFillExtrusionHeight() {
@@ -101,7 +118,7 @@ extension OOMapView {
     }
     
     @objc private func animateNextStep(_ displayLink: CADisplayLink) {
-        let animationDuration: TimeInterval = 4
+        let animationDuration: TimeInterval = 0.25
         
         var progress = 0.0
         if heightChanged {
@@ -154,17 +171,49 @@ extension OOMapView {
 extension OOMapView {
     
     private func puckUI() {
-        var config = Puck2DConfiguration.makeDefault(showBearing: true)
+        let config = Puck2DConfiguration.makeDefault(showBearing: false)
+        mapView.location.options.puckType = .puck2D(config)
+    }
+    
+    func showBearing(_ visible: Bool) {
+        let config = Puck2DConfiguration.makeDefault(showBearing: visible)
         mapView.location.options.puckType = .puck2D(config)
         mapView.location.options.puckBearingSource = .heading
+        light.colorTransition = StyleTransition(duration: 0.35, delay: 0)
+        if visible { // white
+            light.color = StyleColor(red: 22, green: 60, blue: 131, alpha: 1)
+        } else { // dark
+            light.color = StyleColor(red: 229, green: 235, blue: 255, alpha: 1)
+        }
+        try? mapView.mapboxMap.style.setLight(light)
     }
     
 }
 
+
 extension OOMapView: LocationPermissionsDelegate {
+
     func locationManager(_ locationManager: LocationManager, didChangeAccuracyAuthorization accuracyAuthorization: CLAccuracyAuthorization) {
         if accuracyAuthorization == .reducedAccuracy {
          // Perform an action in response to the new change in accuracy
         }
     }
+    
+}
+
+
+extension OOMapView: GestureManagerDelegate {
+    
+    func gestureManager(_ gestureManager: MapboxMaps.GestureManager, didBegin gestureType: MapboxMaps.GestureType) {
+        _gestureHandler(gestureType)
+    }
+    
+    func gestureManager(_ gestureManager: MapboxMaps.GestureManager, didEnd gestureType: MapboxMaps.GestureType, willAnimate: Bool) {
+        
+    }
+    
+    func gestureManager(_ gestureManager: MapboxMaps.GestureManager, didEndAnimatingFor gestureType: MapboxMaps.GestureType) {
+        
+    }
+    
 }

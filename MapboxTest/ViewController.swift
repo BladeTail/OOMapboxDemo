@@ -17,29 +17,63 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         mapViewModel.onViewDidLoad(vc: self)
         mapViewModel.delegate = self
-        
-        homeView = DemoHomeView(frame: CGRect(origin: CGPointZero, size: UIScreen.main.bounds.size))
-        homeView.touchDelegate = mapViewModel.ooMapView
-        homeView.isUserInteractionEnabled = true
-        self.view.addSubview(homeView)
-
-        homeView.callback { [unowned self] action in
-            if action == "ispace" {
-                self.mapViewModel.changeBearingAndPitch(increase: false)
-            } else if action == "share" {
-                self.mapViewModel.changeBearingAndPitch(increase: true)
-            } else {
-                self.mapViewModel.flyCurrentLocation()
-//                self.present(DemoCardController(), animated: true)
+        mapViewModel.ooMapView.gestureHandler = { [unowned self] _ in
+            if self.homeView.puck.isSelected {
+                self.homeView.puck.isSelected = false
+                openPuking(false)
             }
         }
+        
+        addHomeView()
+        addGestureView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         mapViewModel.onViewDidAppear(vc: self)
     }
+    
+    private func addHomeView() {
+        homeView = DemoHomeView(frame: CGRect(origin: CGPointZero, size: UIScreen.main.bounds.size))
+        homeView.touchDelegate = mapViewModel.ooMapView
+        homeView.isUserInteractionEnabled = true
+        self.view.addSubview(homeView)
+        
+        homeView.callback { [unowned self] action in
+            if action == "open puck" {
+                openPuking(true)
+            } else if action == "close puck" {
+                openPuking(false)
+            }
+        }
+    }
+    
+    private func addGestureView() {
+        let leftView = OOMapGestureView(frame: CGRect(x: 0, y: 0, width: 20, height: UIScreen.main.bounds.height), position: .left)
+        view.addSubview(leftView)
+        leftView.processor = { [unowned self] processor in
+            self.mapViewModel.changePitch(processor: processor)
+        }
+        
+        let rightView = OOMapGestureView(frame: CGRect(x: UIScreen.main.bounds.width - 20, y: 0, width: 20, height: UIScreen.main.bounds.height), position: .right)
+        view.addSubview(rightView)
+        rightView.processor = { [unowned self] processor in
+            self.mapViewModel.changeZoom(processor: processor)
+        }
+    }
+    
+    private func openPuking(_ open: Bool) {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+        if open {
+            self.mapViewModel.flyCurrentLocation(pucking: true)
+        } else {
+            self.mapViewModel.usePucking(false)
+        }
+    }
+    
 }
+
 
 extension ViewController: OOMapViewDelegate {
     

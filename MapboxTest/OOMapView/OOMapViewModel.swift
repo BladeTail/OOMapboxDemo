@@ -16,32 +16,22 @@ protocol OOMapViewDelegate : AnyObject {
     func didDeselectHouse()
 }
 
-class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
+class OOMapViewModel: OOAnnotationViewDelegate {
     internal var ooMapView:OOMapView!
     private let styleURI:String = "mapbox://styles/jonex/clfo9was6000301o7zni3ye8y"
     
     public weak var delegate:OOMapViewDelegate!
     
-    // **** test code ****
-    private var _addedTestAnnos:NSInteger = 0
-    private var addedTestAnnos:NSInteger {
-        get {
-            return _addedTestAnnos;
-        } set {
-            _addedTestAnnos = newValue
-            if (newValue == 3) {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
-                    self.addFourRandomViewAnnotations()
-                })
-            }
-        }
-    }
     internal var uCoord:CLLocationCoordinate2D!
     private var annotationAnimationStartTime:TimeInterval = 0
     private var annotationAnimationDuration = 0.25
     private let normalAnnotations:NSMutableArray = NSMutableArray()
-    private let normalZoom:CGFloat = 15
+    private let normalBearing:CGFloat = 45
+    private let minZoom:CGFloat = 12
+    private let normalZoom:CGFloat = 16
     private let houseZoom:CGFloat = 15
+    
+    private var pucking: Bool = false
     
     /// 界面上普通标注的数量
     public var normalAnnoCount:NSInteger = 4
@@ -52,12 +42,42 @@ class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
         let screenBounds:CGRect = UIScreen.main.bounds;
         ooMapView = OOMapView(frame: screenBounds, accessToken: accessToken, styleURI: styleURI)
         ooMapView.mapView.location.addLocationConsumer(newConsumer: self)
+        
+        ooMapView.mapView.mapboxMap.onNext(event: .mapLoaded) { [unowned self] _ in
+            ooMapView.mapView.location.requestTemporaryFullAccuracyPermissions(withPurposeKey: accessToken)
+        }
+                
+        ooMapView.mapView.mapboxMap.onNext(event: .styleLoaded) { [unowned self] _ in
+            onMapStyleLoaded()
+            ooMapView.fixBuildingExtrusions()
+        }
+        
+        ooMapView.mapView.mapboxMap.onEvery(event: .cameraChanged) { [unowned self] _ in
+            ooMapView.cameraChanged()
+        }
+        
         vc.view .addSubview(ooMapView)
     }
     
-    public func onViewDidAppear(vc:UIViewController) {
-//        self.updateMapPitchAndZoomLevel()
-        addedTestAnnos = addedTestAnnos == 1 ? 3 : 2;
+    public func onViewDidAppear(vc:UIViewController) {}
+    
+    public func onMapStyleLoaded() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: { // 暂停
+            self.flyCurrentLocation(pucking: false)
+            self.updateMapZoomLevel(false) { [unowned self] position in // zoom to 12
+                if position == .end {
+                    self.updateMapBearingLevel() { [unowned self] position in // bearing to 45
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { // 暂停
+                            self.updateMapZoomLevel(true) { [unowned self] position in // zoom to 16
+                                if position == .end {
+                                    self.addFourRandomViewAnnotations()
+                                }
+                            }
+                        })
+                    }
+                }
+            }
+        })
     }
     
     public func selectAnnotationAtIndex(index:NSInteger) {
@@ -70,7 +90,7 @@ class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
     }
     
     public func deselectHouseOrAnnotaion() {
-        self.didTappedAnnotationView(annotationView: self.userAnno)
+//        self.didTappedAnnotationView(annotationView: self.userAnno)
     }
     
     public func setHouseVisible(visible:Bool) {
@@ -78,7 +98,7 @@ class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
     }
     
     public func setCurrentUserAnnoVisible(visible:Bool) {
-        userAnno.setVisible(visible: visible)
+//        userAnno.setVisible(visible: visible)
     }
     
     public func setAnnotationVisible(visible:Bool, index:NSInteger) {
@@ -93,29 +113,20 @@ class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
         }
     }
     
-    private func updateMapPitchAndZoomLevel () {
-        let pitchAnimator = ooMapView.mapView.camera.makeAnimator(duration: 0.25, curve: .easeInOut) { (transition) in
-            transition.pitch.toValue = 52.50
-            transition.zoom.toValue = self.normalZoom
+    private func updateMapZoomLevel (_ normal: Bool, _ completion: @escaping AnimationCompletion) {
+        let animator = ooMapView.mapView.camera.makeAnimator(duration: 0.5, curve: .easeInOut) { (transition) in
+            transition.zoom.toValue = normal ? self.normalZoom : self.minZoom
         }
-        pitchAnimator.startAnimation()
+        animator.addCompletion(completion)
+        animator.startAnimation()
     }
     
-    internal func locationUpdate(newLocation: Location) {
-        if addedTestAnnos == 3 {return}
-        ooMapView.mapView.camera.ease(
-            to: CameraOptions(center: newLocation.coordinate),
-            duration: 1,
-            curve: .linear,
-            completion: nil)
-//        self.updateCurrentUserAnno(coord: newLocation.coordinate)
-        addedTestAnnos = addedTestAnnos == 2 ? 3 : 1
-        uCoord = newLocation.coordinate
-    }
-    
-    func flyCurrentLocation() {
-        let options = CameraOptions(center: uCoord)
-        ooMapView.mapView.camera.ease(to: options, duration: 1, curve: .easeInOut)
+    private func updateMapBearingLevel (_ completion: @escaping AnimationCompletion) {
+        let animator = ooMapView.mapView.camera.makeAnimator(duration: 0.5, curve: .easeInOut) { (transition) in
+            transition.bearing.toValue = self.normalBearing
+        }
+        animator.addCompletion(completion)
+        animator.startAnimation()
     }
     
     private func addFourRandomViewAnnotations() {
@@ -206,7 +217,7 @@ class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
                 }
             }
         }
-        self.animateViewAnnotations()
+//        self.animateViewAnnotations()
     }
     
     private func animateViewAnnotations() {
@@ -260,8 +271,39 @@ class OOMapViewModel : LocationConsumer, OOAnnotationViewDelegate {
         }
     }
     
-    public func changeBearingAndPitch(increase: Bool) {
-        ooMapView.changeBearingAndPitch(increase: increase)
+    func changePitch(processor: Double) {
+        ooMapView.changePitch(processor: processor)
+    }
+    
+    func changeZoom(processor: Double) {
+        ooMapView.changeZoom(processor: processor)
+    }
+    
+}
+
+
+extension OOMapViewModel: LocationConsumer {
+    
+    func locationUpdate(newLocation: Location) {
+        uCoord = newLocation.coordinate
+        if !pucking { return }
+        ooMapView.mapView.camera.ease(
+            to: CameraOptions(center: newLocation.coordinate),
+            duration: 0.25,
+            curve: .linear)
+//        self.updateCurrentUserAnno(coord: newLocation.coordinate)
+    }
+    
+    func flyCurrentLocation(pucking: Bool) {
+        let options = CameraOptions(center: uCoord)
+        ooMapView.mapView.camera.ease(to: options, duration: 0.25, curve: .linear)
+        ooMapView.showBearing(pucking)
+        usePucking(pucking)
+    }
+    
+    func usePucking(_ pucking: Bool) {
+        self.pucking = pucking
+        ooMapView.showBearing(pucking)
     }
     
 }

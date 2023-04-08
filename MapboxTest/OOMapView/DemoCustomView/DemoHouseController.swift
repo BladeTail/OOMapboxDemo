@@ -55,7 +55,7 @@ extension DemoHouseController {
     
     fileprivate func setupNaviBar() {
         layerView = UIView()
-        layerView.isUserInteractionEnabled = true
+        layerView.isUserInteractionEnabled = false
         layerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 262.5)
         let bgLayer1 = CAGradientLayer()
         bgLayer1.colors = [UIColor(red: 0.02, green: 0, blue: 0.21, alpha: 1).cgColor, UIColor(red: 0.09, green: 0.07, blue: 0.3, alpha: 0).cgColor]
