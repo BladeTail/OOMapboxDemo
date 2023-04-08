@@ -68,10 +68,10 @@ class OOMapViewModel: OOAnnotationViewDelegate {
                 if position == .end {
                     self.updateMapBearingLevel() { [unowned self] position in // bearing to 45
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { // 暂停
-                            self.updateMapZoomLevel(true) { [unowned self] position in // zoom to 16
-                                if position == .end {
-                                    self.addFourRandomViewAnnotations()
-                                }
+                            self.updateMapZoomLevel(true) { _ in // zoom to 16
+//                                if position == .end {
+//                                    self.addFourRandomViewAnnotations()
+//                                }
                             }
                         })
                     }
@@ -90,7 +90,7 @@ class OOMapViewModel: OOAnnotationViewDelegate {
     }
     
     public func deselectHouseOrAnnotaion() {
-//        self.didTappedAnnotationView(annotationView: self.userAnno)
+        self.didTappedAnnotationView(annotationView: self.userAnno)
     }
     
     public func setHouseVisible(visible:Bool) {
@@ -98,7 +98,7 @@ class OOMapViewModel: OOAnnotationViewDelegate {
     }
     
     public func setCurrentUserAnnoVisible(visible:Bool) {
-//        userAnno.setVisible(visible: visible)
+        userAnno.setVisible(visible: visible)
     }
     
     public func setAnnotationVisible(visible:Bool, index:NSInteger) {
@@ -270,15 +270,6 @@ class OOMapViewModel: OOAnnotationViewDelegate {
             ooMapView.addViewAnnotation(view: userAnno)
         }
     }
-    
-    func changePitch(processor: Double) {
-        ooMapView.changePitch(processor: processor)
-    }
-    
-    func changeZoom(processor: Double) {
-        ooMapView.changeZoom(processor: processor)
-    }
-    
 }
 
 
@@ -286,24 +277,24 @@ extension OOMapViewModel: LocationConsumer {
     
     func locationUpdate(newLocation: Location) {
         uCoord = newLocation.coordinate
+        self.updateCurrentUserAnno(coord: newLocation.coordinate)
         if !pucking { return }
         ooMapView.mapView.camera.ease(
             to: CameraOptions(center: newLocation.coordinate),
             duration: 0.25,
             curve: .linear)
-//        self.updateCurrentUserAnno(coord: newLocation.coordinate)
     }
     
     func flyCurrentLocation(pucking: Bool) {
         let options = CameraOptions(center: uCoord)
         ooMapView.mapView.camera.ease(to: options, duration: 0.25, curve: .linear)
-        ooMapView.showBearing(pucking)
+        ///ooMapView.showBearing(pucking)
         usePucking(pucking)
     }
     
     func usePucking(_ pucking: Bool) {
         self.pucking = pucking
-        ooMapView.showBearing(pucking)
+        ///ooMapView.showBearing(pucking)
     }
     
 }

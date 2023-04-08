@@ -21,6 +21,7 @@
 		B1A6F81F29B312CB001D15AB /* OOImageViewAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A6F81E29B312CB001D15AB /* OOImageViewAnnotation.swift */; };
 		B1A6F82129B32922001D15AB /* OOMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A6F81D29B30F3B001D15AB /* OOMapView.swift */; };
 		B1A6F82229B32922001D15AB /* OOMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A6F82029B32204001D15AB /* OOMapViewModel.swift */; };
+		B1AB6F0529E16F580080C061 /* OOMapGestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AB6F0429E16F580080C061 /* OOMapGestureView.swift */; };
 		B1EBA726299FC2B0001EF27F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EBA725299FC2B0001EF27F /* AppDelegate.swift */; };
 		B1EBA728299FC2B0001EF27F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EBA727299FC2B0001EF27F /* SceneDelegate.swift */; };
 		B1EBA72A299FC2B0001EF27F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EBA729299FC2B0001EF27F /* ViewController.swift */; };
@@ -45,6 +46,7 @@
 		B1A6F81D29B30F3B001D15AB /* OOMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OOMapView.swift; sourceTree = "<group>"; };
 		B1A6F81E29B312CB001D15AB /* OOImageViewAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OOImageViewAnnotation.swift; sourceTree = "<group>"; };
 		B1A6F82029B32204001D15AB /* OOMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OOMapViewModel.swift; sourceTree = "<group>"; };
+		B1AB6F0429E16F580080C061 /* OOMapGestureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OOMapGestureView.swift; sourceTree = "<group>"; };
 		B1EBA722299FC2B0001EF27F /* MapboxTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapboxTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1EBA725299FC2B0001EF27F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1EBA727299FC2B0001EF27F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			children = (
 				0AB007C929B47DD100074C57 /* DemoCustomView */,
 				B1A6F81D29B30F3B001D15AB /* OOMapView.swift */,
+				B1AB6F0429E16F580080C061 /* OOMapGestureView.swift */,
 				B1A6F81E29B312CB001D15AB /* OOImageViewAnnotation.swift */,
 				B1A6F82029B32204001D15AB /* OOMapViewModel.swift */,
 			);
@@ -270,6 +273,7 @@
 				B1EBA72A299FC2B0001EF27F /* ViewController.swift in Sources */,
 				0AB007DD29B47DFB00074C57 /* DemoHouseHiddenTransitioning.swift in Sources */,
 				B1A6F81F29B312CB001D15AB /* OOImageViewAnnotation.swift in Sources */,
+				B1AB6F0529E16F580080C061 /* OOMapGestureView.swift in Sources */,
 				B1EBA726299FC2B0001EF27F /* AppDelegate.swift in Sources */,
 				B1EBA728299FC2B0001EF27F /* SceneDelegate.swift in Sources */,
 				0AB007DB29B47DFB00074C57 /* DemoTouchView.swift in Sources */,
@@ -423,7 +427,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = YN897HLPBK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MapboxTest/Info.plist;
@@ -439,7 +443,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = test.demo.mapbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -455,7 +459,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = YN897HLPBK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MapboxTest/Info.plist;
@@ -471,7 +475,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = test.demo.mapbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

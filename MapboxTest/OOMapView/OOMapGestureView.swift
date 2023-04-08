@@ -14,7 +14,7 @@ enum OOMapGestureViewPosition {
 
 class OOMapGestureView: UIView {
     
-    typealias Handler = (_ processor: Double) -> Void
+    typealias Handler = (_ processor: Double, _ isStart:Bool) -> Void
     var processor: Handler {
         get {
             return _processor
@@ -47,22 +47,25 @@ class OOMapGestureView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    var startY:Double = 0.0
     @objc private func handlePanGesture(_ pan: UIPanGestureRecognizer) {
-        var percent = pan.translation(in: self).y / self.frame.height * 2
-        if percent < 0 {
-            percent = max(percent, -1)
-        } else {
-            percent = min(percent, 1)
-        }
-        
+        var percent:Double = 0.0;
         switch pan.state {
+        case .began:
+            startY = pan.location(in: pan.view).y;
+            _processor(0, true)
+            break;
         case .changed:
+            percent = (pan.location(in: pan.view).y - startY) / self.frame.height;
             gradientLayer.opacity = 1
-        default:
+            _processor(percent, false)
+            break;
+        case .cancelled, .ended, .failed, .recognized:
             gradientLayer.opacity = 0
+            break
+        default:
+            break;
         }
-
-        _processor(percent)
     }
     
     private func addLeftColorLayer() {
@@ -95,15 +98,5 @@ class OOMapGestureView: UIView {
 
 
 class OOPanGestureRecognizer: UIPanGestureRecognizer {
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
-        super.touchesMoved(touches, with: event)
-        if state == .began {
-            let vel = velocity(in: view)
-            if abs(vel.x) > abs(vel.y) {
-                state = .cancelled
-            }
-        }
-    }
     
 }

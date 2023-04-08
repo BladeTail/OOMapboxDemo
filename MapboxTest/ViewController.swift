@@ -48,17 +48,28 @@ class ViewController: UIViewController {
         }
     }
     
+    var startPitch:Double = 0;
+    var startZoom:Double = 0;
     private func addGestureView() {
         let leftView = OOMapGestureView(frame: CGRect(x: 0, y: 0, width: 20, height: UIScreen.main.bounds.height), position: .left)
         view.addSubview(leftView)
-        leftView.processor = { [unowned self] processor in
-            self.mapViewModel.changePitch(processor: processor)
+        leftView.processor = { [unowned self] processor, isStarted in
+            if isStarted {
+                startPitch = self.mapViewModel.ooMapView.mapView.cameraState.pitch;
+            } else {
+                self.mapViewModel.ooMapView.changePitch(processor: processor, startPitch: startPitch)
+            }
         }
         
         let rightView = OOMapGestureView(frame: CGRect(x: UIScreen.main.bounds.width - 20, y: 0, width: 20, height: UIScreen.main.bounds.height), position: .right)
         view.addSubview(rightView)
-        rightView.processor = { [unowned self] processor in
-            self.mapViewModel.changeZoom(processor: processor)
+        rightView.processor = { [unowned self] processor, isStarted in
+            
+            if isStarted {
+                startZoom = self.mapViewModel.ooMapView.mapView.cameraState.zoom;
+            } else {
+                self.mapViewModel.ooMapView.changeZoom(processor: processor, startZoom: startZoom)
+            }
         }
     }
     

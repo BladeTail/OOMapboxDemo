@@ -40,7 +40,7 @@ class OOMapView : UIView {
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(mapView)
         
-        puckUI()
+        ///puckUI()
         
         mapView.gestures.delegate = self
                 
@@ -81,33 +81,15 @@ extension OOMapView {
     }
     
     // 0 - 85
-    func changePitch(processor: Double) {
-        var toValue = self.mapView.cameraState.pitch
-        let max = 85 - toValue
-        let min = toValue
-        if processor > 0 {
-            toValue += max * processor
-        } else {
-            toValue += min * processor
-        }
+    func changePitch(processor: Double, startPitch:Double) {
+        let toValue = startPitch + processor * 90;
         mapView.mapboxMap.setCamera(to: CameraOptions(pitch: toValue))
     }
     
     // 10 - 20
-    func changeZoom(processor: Double) {
-        var toValue = self.mapView.cameraState.zoom
-        let max = 20 - toValue
-        let min = toValue - 10
-        if processor > 0 {
-            toValue += max * processor
-        } else {
-            toValue += min * processor
-        }
+    func changeZoom(processor: Double, startZoom:Double) {
+        let toValue = startZoom + processor * 10;
         mapView.mapboxMap.setCamera(to: CameraOptions(zoom: toValue))
-//        let animator = mapView.camera.makeAnimator(duration: 0.0125, curve: .linear) { (transition) in
-//            transition.zoom.toValue = toValue
-//        }
-//        animator.startAnimation()
     }
     
     private func changeFillExtrusionHeight() {
